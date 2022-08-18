@@ -1,6 +1,6 @@
 {
   "name": "localhost-run",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Node client for localhost.run",
   "repository": {
     "url": "https://github.com/ramiel/localhost-run-node.git",
