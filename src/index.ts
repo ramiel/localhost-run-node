@@ -1,12 +1,12 @@
 import { spawn } from "child_process";
 
-interface LocalhostRunClientOptions {
+export interface LocalhostRunClientOptions {
   port: number;
   timeout?: number;
   domain?: string;
 }
 
-interface TunnelResponse {
+export interface TunnelResponse {
   domain: string;
   secure: string;
   insecure: string;
