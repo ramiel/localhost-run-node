@@ -6,7 +6,7 @@ export interface LocalhostRunClientOptions {
   domain?: string;
 }
 
-export interface TunnelResponse {
+export interface Tunnel {
   domain: string;
   secure: string;
   insecure: string;
@@ -17,7 +17,7 @@ export function createExternalUrl({
   port,
   timeout = 10_000,
   domain,
-}: LocalhostRunClientOptions): Promise<TunnelResponse> {
+}: LocalhostRunClientOptions): Promise<Tunnel> {
   return new Promise((resolve, reject) => {
     let hasTimedOut = false;
     const sshParams = [
