@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { spawn, ChildProcess } from "child_process";
 
 export interface LocalhostRunClientOptions {
   port: number;
@@ -11,6 +11,9 @@ export interface Tunnel {
   secure: string;
   insecure: string;
   close: () => boolean;
+  on: ChildProcess["on"];
+  off: ChildProcess["off"];
+  once: ChildProcess["once"];
 }
 
 export function createExternalUrl({
@@ -50,11 +53,17 @@ export function createExternalUrl({
       if (!hasTimedOut && assignedDomain) {
         clearTimeout(currTimeout);
         const close = () => ssh.kill();
+        const on = ssh.on.bind(ssh);
+        const off = ssh.off.bind(ssh);
+        const once = ssh.once.bind(ssh);
         resolve({
           domain: assignedDomain,
           secure: `https://${assignedDomain}`,
           insecure: `http://${assignedDomain}`,
           close,
+          on,
+          off,
+          once,
         });
       }
     });
