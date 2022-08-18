@@ -17,5 +17,29 @@ console.log(result);
 // }
 ```
 
-NOTE: this is a little personal project, it's not affiliated with localhost.run.  
+## Using custom domains
+
+You can use custom domain as well, if you have an active [subscription]()
+
+```ts
+import { createExternalUrl } from "localhost-run";
+
+const result = await createExternalUrl({
+  port: 3000,
+  domain: tunnel.example.com,
+});
+
+console.log(result);
+
+// Prints
+// {
+//   domain: 'tunnel.example.com',
+//   secure: 'https://tunnel.example.com',
+//   insecure: 'http://tunnel.example.com',
+// }
+```
+
+## Notes
+
+This is a little personal project, it's not affiliated with localhost.run.  
 This software currently rely on the presenc of `ssh` binary in your environment

@@ -2,6 +2,10 @@
   "name": "localhost-run",
   "version": "1.0.1",
   "description": "Node client for localhost.run",
+  "repository": {
+    "url": "https://github.com/ramiel/localhost-run-node.git",
+    "type": "git"
+  },
   "main": "dist/index.js",
   "author": "Fabrizio Ruggeri",
   "license": "MIT",
