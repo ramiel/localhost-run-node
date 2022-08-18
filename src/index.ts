@@ -6,11 +6,18 @@ interface LocalhostRunClientOptions {
   domain?: string;
 }
 
+interface TunnelResponse {
+  domain: string;
+  secure: string;
+  insecure: string;
+  close: () => boolean;
+}
+
 export function createExternalUrl({
   port,
   timeout = 10_000,
   domain,
-}: LocalhostRunClientOptions) {
+}: LocalhostRunClientOptions): Promise<TunnelResponse> {
   return new Promise((resolve, reject) => {
     let hasTimedOut = false;
     const sshParams = [
@@ -42,10 +49,12 @@ export function createExternalUrl({
       }
       if (!hasTimedOut && assignedDomain) {
         clearTimeout(currTimeout);
+        const close = () => ssh.kill();
         resolve({
           domain: assignedDomain,
           secure: `https://${assignedDomain}`,
           insecure: `http://${assignedDomain}`,
+          close,
         });
       }
     });
@@ -70,6 +79,10 @@ export default createExternalUrl;
 //   });
 
 //   console.log(result);
+
+//   setTimeout(() => {
+//     result.close();
+//   }, 3000);
 // };
 
 // test();

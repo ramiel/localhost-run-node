@@ -39,6 +39,18 @@ console.log(result);
 // }
 ```
 
+## Closing the tunnel
+
+```ts
+import { createExternalUrl } from "localhost-run";
+
+const tunnel = await createExternalUrl({
+  port: 3000,
+});
+
+tunnel.close(); // returns true when succeded
+```
+
 ## Notes
 
 This is a little personal project, it's not affiliated with localhost.run.  
