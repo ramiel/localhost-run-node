@@ -1,0 +1,19 @@
+{
+  "name": "localhost-run",
+  "version": "1.0.1",
+  "description": "Node client for localhost.run",
+  "main": "dist/index.js",
+  "author": "Fabrizio Ruggeri",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "tsc --build",
+    "prepare": "npm run build",
+    "watch": "tsc --build --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.40",
+    "typescript": "^4.7.2"
+  },
+  "dependencies": {}
+}
