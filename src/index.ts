@@ -1,3 +1,4 @@
+/// <reference lib="es2018.regexp" />
 import { spawn, ChildProcess } from "child_process";
 
 export interface LocalhostRunClientOptions {
@@ -40,16 +41,8 @@ export function createExternalUrl({
       reject(new Error("SSH connection timed out"));
     }, timeout);
     ssh.stdout.on("data", (data) => {
-      let assignedDomain: string | null = null;
       const connectionText = data.toString() as string;
-      if (domain && connectionText.includes(domain)) {
-        assignedDomain = domain;
-      } else {
-        const matches = connectionText.match(/(\S+\.lhrtunnel\.link)\s/g);
-        if (matches && matches.length >= 2) {
-          assignedDomain = matches[0].trim();
-        }
-      }
+      const { groups: { assignedDomain = "" } = {} } = /https\:\/\/(?<assignedDomain>.*)/.exec(connectionText) ?? {}
       if (!hasTimedOut && assignedDomain) {
         clearTimeout(currTimeout);
         const close = () => ssh.kill();
