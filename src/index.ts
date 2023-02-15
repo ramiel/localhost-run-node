@@ -1,4 +1,3 @@
-/// <reference lib="es2018.regexp" />
 import { spawn, ChildProcess } from "child_process";
 
 export interface LocalhostRunClientOptions {
@@ -42,7 +41,8 @@ export function createExternalUrl({
     }, timeout);
     ssh.stdout.on("data", (data) => {
       const connectionText = data.toString() as string;
-      const { groups: { assignedDomain = "" } = {} } = /https\:\/\/(?<assignedDomain>.*)/.exec(connectionText) ?? {}
+      const { groups: { assignedDomain = "" } = {} } =
+        /https\:\/\/(?<assignedDomain>.+)/.exec(connectionText) ?? {};
       if (!hasTimedOut && assignedDomain) {
         clearTimeout(currTimeout);
         const close = () => ssh.kill();
