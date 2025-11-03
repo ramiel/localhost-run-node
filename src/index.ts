@@ -4,6 +4,7 @@ export interface LocalhostRunClientOptions {
   port: number;
   timeout?: number;
   domain?: string;
+  debug?: (txt: string) => void
 }
 
 export interface Tunnel {
@@ -18,8 +19,9 @@ export interface Tunnel {
 
 export function createExternalUrl({
   port,
-  timeout = 10_000,
+  timeout = 20_000,
   domain,
+  debug
 }: LocalhostRunClientOptions): Promise<Tunnel> {
   return new Promise((resolve, reject) => {
     let hasTimedOut = false;
@@ -40,6 +42,7 @@ export function createExternalUrl({
       reject(new Error("SSH connection timed out"));
     }, timeout);
     ssh.stdout.on("data", (data) => {
+      debug?.(`[SSH_TUNNEL]: ${data.toString()}`)
       const connectionText = data.toString() as string;
       const { groups: { assignedDomain = "" } = {} } =
         /https\:\/\/(?<assignedDomain>.+)/.exec(connectionText) ?? {};
@@ -61,12 +64,7 @@ export function createExternalUrl({
       }
     });
     // ssh.stderr.on("data", (data) => {
-    //   const matches = (data as string).match(/(\S+\.lhrtunnel\.link)\s/g);
-    //   if (!hasTimedOut && matches?.length == 2) {
-    //     clearTimeout(currTimeout);
-    //     const url = matches[1];
-    //     resolve(url);
-    //   }
+    //   console.log('-->', data.toString())
     // });
   });
 }
